@@ -22,8 +22,12 @@ if not os.path.isdir(src+'train/'):
 
 from keras.applications.vgg16 import VGG16
 from keras.models import Model
-from keras.layers import Dense, Flatten
-from keras.preprocessing.image import ImageDataGenerator
+# from keras.layers import Dense, Flatten
+# from keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
+from keras.src.legacy.preprocessing.image import ImageDataGenerator
+
 
 # Define hyperparameters
 INPUT_SIZE = 128 #Change this to 48 if the code is taking too long to run
@@ -42,7 +46,7 @@ input_ = vgg16.input
 output_ = vgg16(input_)
 last_layer = Flatten(name='flatten')(output_)
 last_layer = Dense(1, activation='sigmoid')(last_layer)
-model = Model(input=input_, output=last_layer)
+model = Model(inputs=input_, outputs=last_layer)
 
 model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
@@ -64,9 +68,9 @@ print("""
       If the code takes too long to run on your computer, you may reduce the INPUT_SIZE paramater in the code to speed up model training.
       """)
 
-model.fit_generator(training_set, steps_per_epoch = STEPS_PER_EPOCH, epochs = EPOCHS, verbose=1)
+model.fit(training_set, steps_per_epoch = STEPS_PER_EPOCH, epochs = EPOCHS, verbose=1)
 
-score = model.evaluate_generator(test_set, steps=100)
+score = model.evaluate(test_set, steps=100)
 
 for idx, metric in enumerate(model.metrics_names):
     print("{}: {}".format(metric, score[idx]))
