@@ -22,8 +22,6 @@ if not os.path.isdir(src+'train/'):
 
 from keras.applications.vgg16 import VGG16
 from keras.models import Model
-# from keras.layers import Dense, Flatten
-# from keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
 from keras.src.legacy.preprocessing.image import ImageDataGenerator
